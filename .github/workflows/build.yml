@@ -45,7 +45,6 @@ jobs:
           zip -r PocketContainer.ipa Payload
           rm -rf Payload
 
-      
       - name: Upload app build
         uses: actions/upload-artifact@v4
         with:
