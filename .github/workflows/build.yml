@@ -16,12 +16,30 @@ jobs:
 
       - name: Check project files
         run: |
-          echo "Checking PocketContainer files"
           ls -la
           test -f project.yml
-          test -f PocketContainerApp.swift
+          test -f PocketContainerApp.swift || test -f Sources/PocketContainer/PocketContainerApp.swift
 
-      - name: Build project
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build app
         run: |
-          echo "Project files found. A full Xcode project is required for an IPA build."
+          xcodebuild \
+            -project PocketContainer.xcodeproj \
+            -scheme PocketContainer \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            build
 
+      - name: Upload app build
+        uses: actions/upload-artifact@v4
+        with:
+          name: PocketContainer-build
+          path: build/Build/Products/Release-iphoneos/
+          if-no-files-found: error
