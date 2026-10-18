@@ -1,6 +1,6 @@
 name: PocketContainer
 options:
-  bundleIdPrefix: com.example
+bundleIdPrefix: com.pocketcontainer
   deploymentTarget:
     iOS: "16.0"
 settings:
